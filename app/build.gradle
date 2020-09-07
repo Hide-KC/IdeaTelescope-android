@@ -1,0 +1,128 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-allopen'
+
+//// Load keystore
+// def keystorePropertiesFile = rootProject.file("keystore.properties")
+// def keystoreProperties = new Properties()
+// keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+  signingConfigs {
+    debug {}
+    release {
+      if (project.hasProperty("Keys.repo")) {
+        def projectPropsFile = file(project.property("Keys.repo") + "/idea_telescope.properties")
+        if (projectPropsFile.exists()) {
+          Properties props = new Properties()
+          props.load(new FileInputStream(projectPropsFile))
+
+          storeFile file(file(project.property("Keys.repo") + props['RELEASE_STORE_FILE']))
+          storePassword props['RELEASE_STORE_PASS']
+          keyAlias props['RELEASE_ALIAS']
+          keyPassword props['RELEASE_KEY_PASS']
+        }
+      } else {
+        println "======================================================="
+        println "[ERROR] - Please configure release-compilation environment - e.g. in ~/.signing  directory"
+        println "======================================================="
+      }
+    }
+  }
+
+  compileSdkVersion buildConfig.compileSdk
+
+  defaultConfig {
+    applicationId 'work.kcs_labo.idea_telescope'
+    minSdkVersion buildConfig.minSdk
+    targetSdkVersion buildConfig.targetSdk
+    versionCode buildConfig.versionCode
+    versionName buildConfig.versionName
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    vectorDrawables.useSupportLibrary = true
+  }
+
+  buildTypes {
+    debug {
+      buildConfigField("boolean", "IS_DEBUG", "true")
+    }
+    release {
+      buildConfigField("boolean", "IS_DEBUG", "false")
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//      signingConfig signingConfigs.release
+    }
+  }
+
+  buildFeatures {
+    dataBinding true
+    viewBinding true
+  }
+
+  testOptions {
+    unitTests {
+      includeAndroidResources = true
+    }
+  }
+
+//  For "Cannot inline bytecode built with JVM target 1.8 ..." warning
+  kotlinOptions {
+    jvmTarget = '1.8'
+  }
+}
+
+dependencies {
+  // Auto generated from
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
+  implementation "androidx.appcompat:appcompat:${versions.appcompat}"
+  implementation "androidx.core:core-ktx:${versions.core_ktx}"
+  implementation "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}"
+  testImplementation "androidx.test.ext:junit:${versions.junitX}"
+  androidTestImplementation "androidx.test.ext:junit:${versions.junitX}"
+  androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espresso_core}"
+  // Auto generated end
+
+  // Any libraries from
+  // Preference
+  implementation "androidx.preference:preference-ktx:${versions.preference}"
+
+  // Firebase
+  implementation "com.google.firebase:firebase-analytics:${versions.firebase_analytics}"
+  implementation "com.google.android.gms:play-services-ads:${versions.firebase_admob}"
+  implementation "com.google.firebase:firebase-auth-ktx:${versions.firebase_auth}"
+  implementation "com.google.firebase:firebase-firestore-ktx:${versions.firebase_firestore}"
+  implementation "com.google.firebase:firebase-functions-ktx:${versions.firebase_functions}"
+  implementation "com.google.firebase:firebase-messaging:${versions.firebase_messaging}"
+  implementation "com.google.firebase:firebase-storage-ktx:${versions.firebase_storage}"
+
+  // MPAndroidChart
+  implementation "com.github.PhilJay:MPAndroidChart:${versions.MPAndroidChart}"
+
+  //Truth
+  testImplementation "com.google.truth:truth:${versions.truth}"
+
+  // Mockito
+  testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.mockito_kotlin}"
+
+  //Robolectric
+  testImplementation "org.robolectric:robolectric:${versions.robolectric}"
+
+  // Test Runner
+  testImplementation "androidx.test:runner:${versions.runner}"
+
+  // Coroutine Test
+  testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutines_test}"
+
+  // Material Components
+  implementation "com.google.android.material:material:${versions.material}"
+
+  // Any libraries end
+}
+
+allOpen {
+  annotation("work.kcs_labo.idea_telescope.annotation.AllOpen")
+}
