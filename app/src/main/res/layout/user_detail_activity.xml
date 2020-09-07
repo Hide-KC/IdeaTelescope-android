@@ -7,22 +7,13 @@
     <import type="work.kcs_labo.idea_telescope.R" />
     <variable
       name="viewModel"
-      type="work.kcs_labo.idea_telescope.view.activity.MainActivityViewModel" />
+      type="work.kcs_labo.idea_telescope.view.activity.UserDetailActivityViewModel" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.MainActivity">
-
-    <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Hello World!"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".view.activity.UserDetailActivity">
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

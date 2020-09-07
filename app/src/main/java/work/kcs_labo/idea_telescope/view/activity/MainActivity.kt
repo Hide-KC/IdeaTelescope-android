@@ -1,7 +1,7 @@
 package work.kcs_labo.idea_telescope.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import work.kcs_labo.idea_telescope.R
 import work.kcs_labo.idea_telescope.databinding.MainActivityBinding
