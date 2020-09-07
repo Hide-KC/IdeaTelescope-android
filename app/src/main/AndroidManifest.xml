@@ -16,7 +16,7 @@
       android:name="com.google.android.gms.ads.APPLICATION_ID"
       android:value="@string/ads_app_id" />
 
-    <activity android:name=".MainActivity">
+    <activity android:name=".view.activity.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
