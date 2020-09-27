@@ -1,5 +1,6 @@
 package work.kcs_labo.idea_telescope.domain.model.idea
 
+import work.kcs_labo.idea_telescope.domain.model.Visibility
 import work.kcs_labo.idea_telescope.domain.model.media.MediaId
 import work.kcs_labo.idea_telescope.domain.model.tag.TagId
 import work.kcs_labo.idea_telescope.domain.model.user.UserId
@@ -15,7 +16,8 @@ data class Idea private constructor(
   val ideaTags: List<TagId>,
   val ideaMedias: List<MediaId>,
   val ideaQuoted: List<IdeaId>,
-  val ideaTheme: IdeaTheme
+  val ideaTheme: IdeaTheme,
+  val ideaVisibility: Visibility
 ) {
 
   class Builder {
@@ -28,6 +30,7 @@ data class Idea private constructor(
     private var ideaMedias: List<MediaId>? = null
     private var ideaQuoted: List<IdeaId>? = null
     private var ideaTheme: IdeaTheme? = null
+    private var ideaVisibility: Visibility = Visibility.Public
 
     //TODO Ideaのバリデーションの記述
     fun setIdeaId(ideaId: IdeaId) = also {
@@ -66,6 +69,10 @@ data class Idea private constructor(
       it.ideaTheme = ideaTheme
     }
 
+    fun setVisibility(ideaVisibility: Visibility) = also {
+      it.ideaVisibility = ideaVisibility
+    }
+
     fun build(): Idea = Idea(
       ideaId ?: IdeaId(),
       ideaAuthorId ?: UserId(),
@@ -79,7 +86,8 @@ data class Idea private constructor(
       ideaTags ?: listOf(),
       ideaMedias ?: listOf(),
       ideaQuoted ?: listOf(),
-      ideaTheme ?: IdeaTheme()
+      ideaTheme ?: IdeaTheme(),
+      ideaVisibility
     )
   }
 }

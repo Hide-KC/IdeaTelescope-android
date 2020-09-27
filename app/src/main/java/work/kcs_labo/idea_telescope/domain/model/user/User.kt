@@ -1,6 +1,6 @@
 package work.kcs_labo.idea_telescope.domain.model.user
 
-import android.net.Uri
+import work.kcs_labo.idea_telescope.domain.model.Visibility
 import work.kcs_labo.idea_telescope.domain.model.idea.IdeaId
 import work.kcs_labo.idea_telescope.util.SystemClock
 import java.util.*
@@ -15,7 +15,8 @@ data class User private constructor(
   val userFollows: List<UserId>,
   val userFollowers: List<UserId>,
   val userKeeps: List<IdeaId>,
-  val userTheme: UserTheme
+  val userTheme: UserTheme,
+  val userVisibility: Visibility
 ) {
 
   class Builder {
@@ -29,6 +30,7 @@ data class User private constructor(
     private var userFollowers: List<UserId>? = null
     private var userKeeps: List<IdeaId>? = null
     private var userTheme: UserTheme? = null
+    private var userVisibility: Visibility = Visibility.Public
 
     //TODO Userのバリデーションの記述
     fun setUserId(userId: UserId) = also {
@@ -71,6 +73,10 @@ data class User private constructor(
       it.userTheme = userTheme
     }
 
+    fun setVisibility(userVisibility: Visibility) = also {
+      it.userVisibility = userVisibility
+    }
+
     fun build(): User = User(
       userId ?: UserId(),
       userCreated ?: object : SystemClock {
@@ -85,7 +91,8 @@ data class User private constructor(
       userFollows ?: listOf(),
       userFollowers ?: listOf(),
       userKeeps ?: listOf(),
-      userTheme ?: UserTheme()
+      userTheme ?: UserTheme(),
+      userVisibility
     )
   }
 }
